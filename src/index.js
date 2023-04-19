@@ -68,18 +68,6 @@ function insertWeatherInfo(data) {
   const sunriseGMT = document.getElementById('sunrise-gmt-time');
   const sunsetGMT = document.getElementById('sunset-gmt-time');
   if (data.message) {
-    header.style.background = '';
-    cityName.textContent = data.message;
-    lonSpan.textContent = '-';
-    latSpan.textContent = '-';
-    cityTemp.textContent = '-';
-    value1.textContent = '-';
-    value2.textContent = '-';
-    value3.textContent = '-';
-    sunrise.textContent = '-';
-    sunset.textContent = '-';
-    sunriseGMT.textContent = '-';
-    sunsetGMT.textContent = '-';
     return;
   }
   header.style.backgroundImage = `url('${data.photo}')`;
@@ -128,6 +116,7 @@ form.addEventListener('submit', (e) => {
   window.clearInterval(timeoutHandle);
   e.preventDefault();
   const place = input.value;
+  input.blur();
   if (place === '') {
     return;
   }
@@ -150,6 +139,16 @@ loadingText.textContent = 'Loading...';
 loadingPage.appendChild(loadingImage);
 loadingPage.appendChild(loadingText);
 document.body.appendChild(loadingPage);
+
+// error component
+const errorPage = document.createElement('div');
+errorPage.setAttribute('id', 'error-page');
+const errorGIF = document.createElement('img');
+errorGIF.setAttribute('id', 'gif');
+const errorText = document.createElement('p');
+errorPage.appendChild(errorGIF);
+errorPage.appendChild(errorText);
+document.body.appendChild(errorPage);
 
 const weatherContainer = document.createElement('div');
 weatherContainer.setAttribute('id', 'weather-container');
@@ -341,10 +340,5 @@ window.onload = () => {
       form.style.display = 'flex';
     }, 1000);
     insertWeatherInfo(data);
-  }).catch((error) => {
-    setTimeout(() => {
-      form.style.opacity = 1;
-      form.style.display = 'flex';
-    }, 1000);
   });
 };

@@ -20,6 +20,18 @@ async function getPlacePhoto(place) {
   return responseData;
 }
 
+// from GIPHY API
+async function getGif(word) {
+  const img = document.querySelector('#gif');
+  try {
+    const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=UigmyZmNmrrgF3BJQXF56laRlkgAkzmi&s=${word}`, { mode: 'cors' });
+    const responseData = await response.json();
+    img.src = responseData.data.images.original.url;
+  } catch (error) {
+    img.src = '';
+  }
+}
+
 // {"coord":{"lon":2.159,"lat":41.3888},
 // "weather":[{"id":801,"main":"Clouds","description":"few clouds","icon":"02n"}],
 // "base":"stations",
@@ -34,25 +46,43 @@ async function getPlacePhoto(place) {
 
 async function processWeatherData(place) {
   const container = document.querySelector('#weather-container');
+  const error = document.querySelector('#error-page');
   const loadingPage = document.getElementById('loading-page');
   container.style.display = 'none';
+  container.style.opacity = 0;
+  error.style.display = 'none';
+  error.style.opacity = 0;
   loadingPage.style.display = 'flex';
   loadingPage.style.opacity = 1;
   const [weatherData, img] = await Promise.all([getWeatherData(place), getPlacePhoto(place)]);
+  if (weatherData.message) {
+    const errorGif = await getGif('cat');
+    const errorText = document.querySelector('#error-page p');
+    errorText.textContent = `Oops, '${place}' not found. Have a cat gif and try again!`;
+    await new Promise((resolve) => setTimeout(() => {
+      setTimeout(() => {
+        loadingPage.style.opacity = 0;
+        loadingPage.style.display = 'none';
+      }, 1000);
+      setTimeout(() => {
+        error.style.opacity = 1;
+        error.style.display = 'flex';
+      }, 1000);
+      resolve();
+    }, 3000));
+    return weatherData;
+  }
   await new Promise((resolve) => setTimeout(() => {
     setTimeout(() => {
       loadingPage.style.opacity = 0;
+      loadingPage.style.display = 'none';
     }, 1000);
-    loadingPage.style.display = 'none';
     setTimeout(() => {
       container.style.opacity = 1;
+      container.style.display = 'flex';
     }, 1000);
-    container.style.display = 'flex';
     resolve();
   }, 3000));
-  if (weatherData.message) {
-    return weatherData;
-  }
   const weather = {
     place: weatherData.name,
     lon: weatherData.coord.lon,
