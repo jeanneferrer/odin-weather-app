@@ -83,6 +83,7 @@ form input {
     color: var(--text-color);
     border: none;
     border-bottom: 2px solid var(--text-color);
+    border-radius: 0px;
     padding-bottom: 5px;
 }
 
