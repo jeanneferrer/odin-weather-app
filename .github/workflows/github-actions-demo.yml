@@ -16,9 +16,12 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-  printCommitMessage:
+  Deploy-GHPages:
     runs-on: ubuntu-latest
     steps:
-      - name: Print inputs
-        run: |
-          echo  ${{ github.event.head_commit.message }}
+      - name: Print commit message
+        run: echo ${{ github.event.head_commit.message }}
+      - name: Add dist folder
+        run: git add dist && git commit -m "${{ github.event.head_commit.message }}"
+      - name: Deploy subfolder
+        run: git subtree push --prefix dist origin gh-pages
