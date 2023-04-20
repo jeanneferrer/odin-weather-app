@@ -20,6 +20,10 @@ jobs:
       - name: Print commit message
         run: echo ${{ github.event.head_commit.message }}
       - name: Deploy subfolder
-        run: |
-          git subtree push --prefix dist origin gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
+#         run: |
+#           git subtree push --prefix dist origin gh-pages
       - run: echo "🍏 This job's status is ${{ job.status }}."
