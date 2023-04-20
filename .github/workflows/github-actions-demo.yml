@@ -19,10 +19,7 @@ jobs:
       - run: git config --global user.name "adiferrer"
       - name: Print commit message
         run: echo ${{ github.event.head_commit.message }}
-      - name: Add dist folder
+      - name: Deploy subfolder
         run: |
-          git add dist && git commit -m "${{ github.event.head_commit.message }}"
+          git subtree push --prefix dist origin gh-pages
       - run: echo "🍏 This job's status is ${{ job.status }}."
-
-#       - name: Deploy subfolder
-#         run: git subtree push --prefix dist origin gh-pages
