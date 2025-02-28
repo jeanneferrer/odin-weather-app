@@ -1,5 +1,5 @@
 # Odin Weather App
-A simple weather application as per the requirement of the Odin Project: Javascript course.
+A simple weather application as per the requirement of the Odin Project: Javascript course. </br>
 Link to page: <a href="https://jeanneferrer.github.io/odin-weather-app/">Weather App</a>
 
 ## Features
