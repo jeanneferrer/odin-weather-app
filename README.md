@@ -1,5 +1,7 @@
 # Odin Weather App
 A simple weather application as per the requirement of the Odin Project: Javascript course.
+Link to page: <a href="https://jeanneferrer.github.io/odin-weather-app/">Weather App</a>
+
 ## Features
 1. Converts celsius to fahrenheit, and stores the current temperature unit.
 2. Stores the latest city that was searched.
